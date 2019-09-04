@@ -1,1 +1,0 @@
----- name: 检测jumpserver文件是否存在  stat: path={{jumpserver_package}}  register: result- debug:    msg: "{{ansible_hostname}} Jumpserver离线包 {{jumpserver_package}} 文件不存在"#    msg: "{{result}}"  failed_when:  not result.stat.exists
