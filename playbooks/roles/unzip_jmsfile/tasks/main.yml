@@ -1,0 +1,5 @@
+- name: Extract Jumpserver.zip into /tmp
+  unarchive:
+   src: foo.tgz
+   dest: /var/lib/foo
+
