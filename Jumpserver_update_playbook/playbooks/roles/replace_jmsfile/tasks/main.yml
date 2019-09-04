@@ -1,0 +1,12 @@
+# - name: Replace_docker_image
+#   shell: cd "/tmp/{{jumpserver_file_name}}" && ./jmsctl.sh load_image
+    
+- shell:  "docker images|grep registry.fit2cloud.com |wc -l"
+  register: images_num
+
+- debug:
+    msg: "{{images_num.stdout_lines}}"
+
+- debug:
+    msg: "Docker image 更新失败"
+  failed_when: "images_num.stdout_lines == 7"

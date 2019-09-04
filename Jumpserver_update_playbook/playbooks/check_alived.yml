@@ -2,8 +2,10 @@
 - name: SSH_Connection_Test
   hosts: all
   roles:
-    - connection_test
-    - check_jms_status
+    # - connection_test
+    # - check_jms_status
+    # - unzip_jmsfile
+    - replace_jmsfile
 
 #- name: check jms file
 #  hosts: all

@@ -1,5 +1,8 @@
 - name: Extract Jumpserver.zip into /tmp
-  unarchive:
-   src: foo.tgz
-   dest: /var/lib/foo
+  unarchive: 
+   src: "{{jumpserver_package}}"
+   dest: /tmp/
+   remote_src: yes
 
+# - debug:
+#     msg: "/tmp/{{jumpserver_file_name}}"
