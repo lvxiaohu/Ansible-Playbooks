@@ -1,0 +1,15 @@
+- name: Host connection test
+  ping:
+
+- name: Jumpserver Host connection test
+  uri:
+    url: https://jms4.fit2cloud.com
+    method: GET
+    return_content: yes
+    status_code: 200
+    body_format: json
+  register: status_web
+
+- name: 检测Jumpserver是否可以连接
+  shell: "echo 连接接成功！"
+  when: status_web is succeeded
