@@ -1,0 +1,17 @@
+- name: Jumpserver service test
+  uri:
+    url: http://127.0.0.1
+    method: GET
+    return_content: yes
+    status_code: 200
+    body_format: json
+  register: jms_status
+  ignore_errors: True
+
+#- debug:
+#    msg: "{{jms_status.failed}}"
+
+- debug:
+    msg: "Jumpserver [ {{ansible_hostname}} ] 服务检测，HTTP状态码：{{jms_status.status}}"
+  failed_when: "jms_status.failed == true"
+
