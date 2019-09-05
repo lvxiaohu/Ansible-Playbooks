@@ -2,11 +2,16 @@
 #   shell: cd "/tmp/{{jumpserver_file_name}}" && ./jmsctl.sh load_image
     
 - shell:  "docker images|grep registry.fit2cloud.com |wc -l"
-  register: images_num
+  register: run_images_num
+
+# - debug:
+#     msg: "{{run_images_num.stdout}}"
 
 - debug:
-    msg: "{{images_num.stdout_lines}}"
+    msg: "Docker image 更新异常，请执行 #docker images 检查"
+  # failed_when: run_images_num.stdout < images_num
+  failed_when: run_images_num.stdout_lines[0]|int < images_num
 
-- debug:
-    msg: "Docker image 更新失败"
-  failed_when: "images_num.stdout_lines == 7"
+# - fail: 
+#     msg: "Docker image 更新异常，请执行 #docker images 检查"
+#   when: images_num.stdout_lines[0]|int < 1
