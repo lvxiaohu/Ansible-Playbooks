@@ -4,15 +4,11 @@
   register: result
   ignore_errors: True
 
-
-
-
 - fail:
     # msg: "{{Download_url}}"
     msg: "{{ansible_hostname}} Jumpserver离线包 {{Jumpserver_package}} 文件不存在"
   when:  not result.stat.exists
   ignore_errors: True
-
 
 - name: 下载Jumpserver离线包
   copy:

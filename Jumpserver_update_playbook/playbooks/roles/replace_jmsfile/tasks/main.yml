@@ -1,13 +1,9 @@
-# - name: Replace_docker_image
-#   shell: cd "/tmp/{{jumpserver_file_name}}" && ./jmsctl.sh load_image
+- name: Replace_docker_image
+  shell: cd "/tmp/{{Jumpserver_file_name}}" && ./jmsctl.sh load_image
     
 - name: 获取 Docker images 数量
   shell:  "docker images|grep registry.fit2cloud.com |wc -l"
   register: run_images_num
-
-# - debug:
-#     msg: "{{run_images_num.stdout}}"
-
 # - debug:
 #     msg: "Docker image 更新异常，请执行 #docker images 检查"
 #   failed_when: run_images_num.stdout[0]|int < images_num

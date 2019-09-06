@@ -3,11 +3,11 @@
   hosts: all
   gather_facts: true
   roles:
-    # - connection_test
+    - connection_test
     - check_jmsfile
-    # - check_jms_status
-    # - unzip_jmsfile
-    # - replace_jmsfile
+    - check_jms_status
+    - unzip_jmsfile
+    - replace_jmsfile
 
 
 
