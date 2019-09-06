@@ -2,7 +2,7 @@
 Jumpserver_package=/tmp/jumpserver-release-v1.5.2-201.zip
 Jumpserver_file_name=jumpserver-release-v1.5.2-201
 Images_num=7
-Download_url=https://a.com
+Download_url=
 Online_update=True
 
 
