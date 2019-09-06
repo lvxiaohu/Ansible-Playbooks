@@ -1,17 +1,19 @@
 # - name: Replace_docker_image
 #   shell: cd "/tmp/{{jumpserver_file_name}}" && ./jmsctl.sh load_image
     
-- shell:  "docker images|grep registry.fit2cloud.com |wc -l"
+- name: 获取 Docker images 数量
+  shell:  "docker images|grep registry.fit2cloud.com |wc -l"
   register: run_images_num
 
 # - debug:
 #     msg: "{{run_images_num.stdout}}"
 
-- debug:
-    msg: "Docker image 更新异常，请执行 #docker images 检查"
-  # failed_when: run_images_num.stdout < images_num
-  failed_when: run_images_num.stdout_lines[0]|int < images_num
-
-# - fail: 
+# - debug:
 #     msg: "Docker image 更新异常，请执行 #docker images 检查"
-#   when: images_num.stdout_lines[0]|int < 1
+#   failed_when: run_images_num.stdout[0]|int < images_num
+  # failed_when: run_images_num.stdout_lines[0]|int < images_num
+
+- name: Docker images 检测
+  fail: 
+    msg: "[ {{ansible_hostname}} ] Docker image 更新异常，请执行 #docker images 检查"
+  when: run_images_num.stdout_lines[0]|int < images_num

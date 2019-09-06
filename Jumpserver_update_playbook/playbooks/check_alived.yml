@@ -5,7 +5,7 @@
     # - connection_test
     # - check_jms_status
     # - unzip_jmsfile
-    - replace_jmsfile
+    # - replace_jmsfile
 
 #- name: check jms file
 #  hosts: all
