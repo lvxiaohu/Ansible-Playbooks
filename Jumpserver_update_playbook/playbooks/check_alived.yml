@@ -1,18 +1,13 @@
 ---
 - name: SSH_Connection_Test
   hosts: all
+  gather_facts: true
   roles:
     # - connection_test
+    - check_jmsfile
     # - check_jms_status
     # - unzip_jmsfile
     # - replace_jmsfile
-
-#- name: check jms file
-#  hosts: all
-#  roles:
-#    - check_jmsfile
-
-
 
 
 

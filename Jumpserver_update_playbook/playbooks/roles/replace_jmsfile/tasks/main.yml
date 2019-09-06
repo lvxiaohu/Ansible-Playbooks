@@ -16,4 +16,4 @@
 - name: Docker images 检测
   fail: 
     msg: "[ {{ansible_hostname}} ] Docker image 更新异常，请执行 #docker images 检查"
-  when: run_images_num.stdout_lines[0]|int < images_num
+  when: run_images_num.stdout_lines[0]|int < Images_num
