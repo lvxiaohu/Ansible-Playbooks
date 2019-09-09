@@ -1,0 +1,69 @@
+# 这是项目总的配置文件, 会作为环境变量加载到各个容器中
+# 格式必须是 KEY=VALUE 不能有空格等
+
+# Compose项目设置
+TAG=master
+COMPOSE_PROJECT_NAME=jms
+DOCKER_SUBNET=192.168.250.0/24
+
+## 持久化目录, 安装启动后不能再修改, 除非移动原来的持久化到新的位置
+VOLUME_DIR=/opt/jumpserver
+
+# Nginx 配置，这个Nginx是用来分发路径到不同的服务
+HTTP_PORT=80
+HTTPS_PORT=443
+SSH_PORT=2222
+
+# LB 配置, 这个Nginx是HA时可以启动负载均衡到不同的主机
+USE_LB=0
+LB_HTTP_PORT=80
+LB_HTTPS_PORT=443
+LB_SSH_PORT=2223
+
+# Coco配置
+## 启动数量, 至少4个，少了需要修改配置文件
+COCO_NUM={{ coco_num }}
+CORE_HOST=http://core:8080
+
+# 是否使用外部MYSQL和REDIS
+USE_EXTERNAL_MYSQL=0
+USE_EXTERNAL_REDIS=0
+
+# Core 配置
+## 启动后不能再修改，否则密码等等信息无法解密
+SECRET_KEY=CmxvOiBmbGFncz03MzxVUCxMT09QQkFDSyxSVU5OSU5HPiAgb
+BOOTSTRAP_TOKEN=CmxvOiBmbGFncz03
+
+# MySQL数据库配置
+DB_ENGINE=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=CmxvOiBmbGFncz03MzxVUCxMT0
+DB_NAME=jumpserver
+
+# Redis配置
+REDIS_HOST=redis
+REDIS_PORT=6379
+REDIS_PASSWORD=jfjuU4O4xMLX
+
+# OPENID配置
+# BASE_SITE_URL=http://localhost:8080
+# AUTH_OPENID=true
+# AUTH_OPENID=false
+# AUTH_OPENID_SERVER_URL=https://openid-auth-server.com/
+# AUTH_OPENID_REALM_NAME=realm-name
+# AUTH_OPENID_CLIENT_ID=client-id
+# AUTH_OPENID_CLIENT_SECRET=client-secret
+
+# Guacamole 配置
+JUMPSERVER_SERVER=http://core:8080
+JUMPSERVER_KEY_DIR=/config/guacamole/data/key/
+JUMPSERVER_RECORD_PATH=/config/guacamole/data/record/
+JUMPSERVER_DRIVE_PATH=/config/guacamole/data/drive/
+JUMPSERVER_ENABLE_DRIVE=true
+
+
+# Mysql 容器启动
+MYSQL_ROOT_PASSWORD=CmxvOiBmbGFncz03MzxVUCxMT0
+MYSQL_DATABASE=jumpserver

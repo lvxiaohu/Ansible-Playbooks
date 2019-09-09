@@ -3,13 +3,13 @@
   hosts: all
   gather_facts: true
   roles:
-    # - connection_test
-    # - check_jmsfile
-    # - check_jms_status
-    # - unzip_jmsfile
-    # - replace_jmsfile
+    - connection_test
+    - check_jmsfile
+    - check_jms_status
+    - unzip_jmsfile
+    - replace_jmsfile
     - update_nginx
-    # - { role: update_jumpserver , when: jms_status.failed == false }
+    - replace_jms_config
 
 - name: JMS_Update
   hosts: all

@@ -3,15 +3,10 @@
 upstream coco_server {
   sticky name=coco_route;
 {% for coco_id in range(1,coco_num+1) %}
-  server jms_coco_{{ coco_id }}:5000
+  server jms_coco_{{ coco_id }}:5000;
 {% endfor %}
 }
 
-upstream center_server {
-  ip_hash;
-  server {{ CORE_SERVER1 }}:{{ CORE_PORT }};
-  server {{ CORE_SERVER2 }}:{{ CORE_PORT }};
-}
 
 server {
   listen 80;
@@ -78,13 +73,10 @@ server {
   }
 
   location / {
-    proxy_pass https://center_server;
-    proxy_buffering off;
-    proxy_http_version 1.1;
+    proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For     $proxy_add_x_forwarded_for;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $http_connection;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_pass http://core:8080;
   }
 
 }
