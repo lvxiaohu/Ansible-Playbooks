@@ -1,0 +1,90 @@
+# Todo: May be can auto discovery
+
+upstream coco_server {
+  sticky name=coco_route;
+{% for coco_id in range(1,coco_num) %}
+  server jms_coco_{{ coco_id }}:5000
+{% endfor %}
+}
+
+upstream center_server {
+  ip_hash;
+  server {{ CORE_SERVER1 }}:{{ CORE_PORT }};
+  server {{ CORE_SERVER2 }}:{{ CORE_PORT }};
+}
+
+server {
+  listen 80;
+
+  listen 443 ssl;
+  ssl_certificate cert/server.crt;
+  ssl_certificate_key cert/server.key;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4:!DH:!DHE;
+  add_header Strict-Transport-Security "max-age=31536000";
+
+  client_max_body_size 10000m;
+
+  location /luna/ {
+    proxy_pass http://luna:80;
+  }
+
+  location /media/replay/ {
+    add_header Content-Encoding gzip;
+    root /data/;
+  }
+
+  location /media/ {
+    root /data/;
+  }
+
+  location /static/ {
+    root /data/;
+  }
+
+  location /coco/ {
+    proxy_pass       http://coco_server/coco/;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+
+  location /socket.io/ {
+    proxy_pass       http://coco_server/socket.io/;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+    proxy_http_version 1.1;
+    proxy_buffering off;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
+
+  location /guacamole/ {
+    proxy_pass http://guacamole:8080/;
+    proxy_buffering off;
+    proxy_http_version 1.1;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $http_connection;
+
+    proxy_ignore_client_abort on;
+    proxy_connect_timeout 600;
+    proxy_send_timeout 600;
+    proxy_read_timeout 600;
+    send_timeout 6000;
+  }
+
+  location / {
+    proxy_pass https://center_server;
+    proxy_buffering off;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For     $proxy_add_x_forwarded_for;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $http_connection;
+  }
+
+}

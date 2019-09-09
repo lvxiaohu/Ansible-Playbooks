@@ -1,0 +1,11 @@
+- name: 更新启动 Jumpserver 服务
+  shell: cd {{JMS_WORKSPACE}} && ./jmsctl.sh start
+
+# 必须镜像没有被使用才可以被删除
+- name: 获取 Docker images 数量
+  shell:  "docker images|wc -l"
+  register: run_images_num3
+
+- name: 清理残余镜像文件
+  shell: "docker images|grep none|awk '{print $3}'|xargs docker rmi"
+  when: run_images_num3.stdout_lines[0]|int > Images_num
