@@ -3,20 +3,28 @@ Jumpserver_package=/tmp/jumpserver-release-v1.5.2-201.zip
 Jumpserver_file_name=jumpserver-release-v1.5.2-201
 JMS_WORKSPACE=/opt/jumpserver-release-1.5.2-184/
 Images_num=8
-Download_url=
-Online_update=True
-#True 开启,Flase 关闭
-Update_Nginx_Config=True 
-# coco运行数量为N-1
-coco_num=3
+
+Copy_from_local=Flase
+Jms_Download_url=
+Online_Download=Flase
+Update_Nginx_Config=True
+Change_Jms_Config=True
+
+coco_num=2
 CORE_SERVER1=
 CORE_SERVER2=
 CORE_PORT=443
 
-[Jms_Host_Backup]
-#172.16.10.157 ansible_user=root ansible_ssh_pass=
+
+[jms_host_backup]
+172.16.10.157 ansible_user=root ansible_ssh_pass=
 
 
-[Jms_Host_Master]
+
+[jms_host_master]
 172.16.10.81  ansible_user=root ansible_ssh_pass=
-#172.16.10.157 ansible_user=root ansible_ssh_pass=
+
+
+[jms_hosts:children]
+jms_host_backup
+jms_host_master

@@ -1,6 +1,3 @@
-- debug:
-    msg: "{{Update_Nginx_Config }}"
-
 - name: 更新 Jumpserver config 配置文件
   template: 
     src: config.txt.j2

@@ -1,6 +1,6 @@
 ---
 - name: SSH_Connection_Test
-  hosts: all
+  hosts: jms_hosts
   gather_facts: true
   roles:
     - connection_test
@@ -10,18 +10,10 @@
     - replace_jmsfile
     - update_nginx
     - replace_jms_config
-
+    
 - name: JMS_Update
-  hosts: all
+  hosts: jms_hosts
   gather_facts: true
   roles:
     - { role: update_jumpserver , when: jms_runs.failed == false }
     - check_jms_status
-
-
-#-----------暂时不需要------------
-#- name: connection_test
-#  hosts: all
-#  tasks:
-#    - import_role:
-#        name: connection_test
