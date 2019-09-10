@@ -1,5 +1,11 @@
-- name: Extract Jumpserver.zip into /tmp
-  unarchive:
-   src: foo.tgz
-   dest: /var/lib/foo
+- name: 检测jumpserver文件是否存在
+  stat: path=/tmp/{{Jumpserver_file_name}}
+  register: file_result
+  ignore_errors: True
 
+- name: Extract Jumpserver.zip into /tmp
+  unarchive: 
+   src: "{{Jumpserver_package}}"
+   dest: /tmp/
+   remote_src: yes
+  when: not file_result.stat.exists

@@ -1,0 +1,5 @@
+Jumpserver_update_playbook/inventory
+*.py[cod]
+*.so
+*.egg
+*.egg-info

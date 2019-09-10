@@ -1,1 +1,31 @@
----- name: 检测jumpserver文件是否存在  stat: path={{jumpserver_package}}  register: result- debug:    msg: "{{ansible_hostname}} Jumpserver离线包 {{jumpserver_package}} 文件不存在"#    msg: "{{result}}"  failed_when:  not result.stat.exists
+---
+- name: 检测jumpserver文件是否存在
+  stat: path={{Jumpserver_package}}
+  register: result
+  ignore_errors: True
+
+- fail:
+    # msg: "{{Download_url}}"
+    msg: "{{ansible_hostname}} Jumpserver离线包 {{Jumpserver_package}} 文件不存在"
+  when:  not result.stat.exists
+  ignore_errors: True
+
+- name: 拷贝Jumpserver离线包
+  copy:
+    src: "{{Jumpserver_package}}"
+    dest: "{{Jumpserver_package}}"
+    owner: root
+    group: root
+  when:
+    - not result.stat.exists
+    - Copy_from_local == True
+
+- name: 在线下载Jumpserver离线包
+  get_url:
+    url: "{{Jms_Download_url}}"
+    dest: "{{Jumpserver_package}}"
+    # force_basic_auth: no
+  when:
+    - not result.stat.exists
+    - Online_Download == True
+    - Copy_from_local != True

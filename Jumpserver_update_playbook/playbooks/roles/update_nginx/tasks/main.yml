@@ -1,0 +1,16 @@
+- name: 停止 Jumpserver 服务
+  shell: cd {{JMS_WORKSPACE}} && ./jmsctl.sh stop
+  register: jms_runs
+  
+- name: 更新 Nginx 配置文件
+  template: 
+    src: http_server.conftest.j2
+    dest: "{{JMS_WORKSPACE}}/nginx/http_server.conf"
+  when: Update_Nginx_Config == true
+
+# 测试部分:
+# - name: 更新 Nginx 配置文件
+#   template: 
+#     src: http_server.conftest.j2
+#     dest: /tmp/http_server.conf
+#   when: Update_Nginx_Config == true

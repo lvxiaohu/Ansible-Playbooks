@@ -1,0 +1,18 @@
+- name: 获取 Docker images 数量
+  shell:  "docker images|wc -l"
+  register: run_images_num
+
+- name: Replace_docker_image
+  shell: cd "/tmp/{{Jumpserver_file_name}}" && ./jmsctl.sh load_image
+  when: run_images_num.stdout_lines[0]|int <= Images_num
+    
+- name: 获取 Docker images 数量
+  shell:  "docker images|wc -l"
+  register: run_images_num2
+
+- name: Docker images 检测
+  fail: 
+    msg: "[ {{ansible_hostname}} ] Docker image 更新异常，请执行 #docker images 检查"
+  when: run_images_num2.stdout_lines[0]|int < Images_num
+
+

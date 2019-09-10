@@ -1,0 +1,19 @@
+---
+- name: SSH_Connection_Test
+  hosts: jms_hosts
+  gather_facts: true
+  roles:
+    - connection_test
+    - check_jmsfile
+    - check_jms_status
+    - unzip_jmsfile
+    - replace_jmsfile
+    - update_nginx
+    - replace_jms_config
+    
+- name: JMS_Update
+  hosts: jms_hosts
+  gather_facts: true
+  roles:
+    - { role: update_jumpserver , when: jms_runs.failed == false }
+    - check_jms_status

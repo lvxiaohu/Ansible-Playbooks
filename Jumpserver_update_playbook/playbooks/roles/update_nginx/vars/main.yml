@@ -1,0 +1,4 @@
+# CORE_SERVER1: "192.168.1.1"
+# CORE_SERVER2: "192.168.1.2"
+# CORE_PORT: 443
+# coco_num: 3

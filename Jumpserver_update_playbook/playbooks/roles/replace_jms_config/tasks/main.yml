@@ -1,0 +1,5 @@
+- name: 更新 Jumpserver config 配置文件
+  template: 
+    src: config.txt.j2
+    dest: "{{JMS_WORKSPACE}}/config.txt"
+  when: Change_Jms_Config == true
